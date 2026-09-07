@@ -80,30 +80,9 @@ public class PropertyFileRepository {
     }
 
     public void addProperty(Property property) {
-
         try (FileWriter writer = new FileWriter("data/properties.txt", true)) {
 
-            writer.write(
-                    property.getId() + "|" +
-                    property.getTitle() + "|" +
-                    property.getLocation() + "|" +
-                    property.getPrice() + "|" +
-                    property.getPropertyType() + "|" +
-                    property.getDescription()
-            );
-
-            if (property instanceof House) {
-
-                House house = (House) property;
-                writer.write("|" + house.getNumberOfBedrooms());
-
-            } else if (property instanceof Apartment) {
-
-                Apartment apartment = (Apartment) property;
-                writer.write("|" + apartment.getFloorNumber());
-            }
-
-            writer.write(System.lineSeparator());
+            writeProperty(writer, property);
 
         } catch (IOException e) {
             System.out.println("Error writing property to file: " + e.getMessage());
@@ -111,7 +90,6 @@ public class PropertyFileRepository {
     }
 
     public void updateProperty(Property updatedProperty) {
-
         List<Property> properties = getAllProperties();
 
         try (FileWriter writer = new FileWriter("data/properties.txt")) {
@@ -122,27 +100,7 @@ public class PropertyFileRepository {
                     property = updatedProperty;
                 }
 
-                writer.write(
-                        property.getId() + "|" +
-                        property.getTitle() + "|" +
-                        property.getLocation() + "|" +
-                        property.getPrice() + "|" +
-                        property.getPropertyType() + "|" +
-                        property.getDescription()
-                );
-
-                if (property instanceof House) {
-
-                    House house = (House) property;
-                    writer.write("|" + house.getNumberOfBedrooms());
-
-                } else if (property instanceof Apartment) {
-
-                    Apartment apartment = (Apartment) property;
-                    writer.write("|" + apartment.getFloorNumber());
-                }
-
-                writer.write(System.lineSeparator());
+                writeProperty(writer, property);
             }
 
         } catch (IOException e) {
@@ -151,7 +109,6 @@ public class PropertyFileRepository {
     }
 
     public void deleteProperty(int id) {
-
         List<Property> properties = getAllProperties();
 
         try (FileWriter writer = new FileWriter("data/properties.txt")) {
@@ -159,15 +116,7 @@ public class PropertyFileRepository {
             for (Property property : properties) {
 
                 if (property.getId() != id) {
-
-                    writer.write(
-                            property.getId() + "|" +
-                                    property.getTitle() + "|" +
-                                    property.getLocation() + "|" +
-                                    property.getPrice() + "|" +
-                                    property.getPropertyType() + "|" +
-                                    property.getDescription() +
-                                    System.lineSeparator());
+                    writeProperty(writer, property);
                 }
             }
 
@@ -192,5 +141,27 @@ public class PropertyFileRepository {
         }
 
         return results;
+    }
+
+    private void writeProperty(FileWriter writer, Property property) throws IOException {
+
+        writer.write(
+                property.getId() + "|" +
+                        property.getTitle() + "|" +
+                        property.getLocation() + "|" +
+                        property.getPrice() + "|" +
+                        property.getPropertyType() + "|" +
+                        property.getDescription());
+
+        if (property instanceof House) {
+            House house = (House) property;
+            writer.write("|" + house.getNumberOfBedrooms());
+
+        } else if (property instanceof Apartment) {
+            Apartment apartment = (Apartment) property;
+            writer.write("|" + apartment.getFloorNumber());
+        }
+
+        writer.write(System.lineSeparator());
     }
 }

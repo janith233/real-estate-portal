@@ -80,9 +80,25 @@
         <span th:text="${#numbers.formatDecimal(property.price, 0, 2)}"></span>
       </p>
 
-      <p th:text="${property.propertyType}"></p>
+      <p>
+        <strong>Property Type:</strong>
+        <span th:text="${property.propertyType}"></span>
+      </p>
 
-      <p th:text="${property.description}"></p>
+      <p th:if="${property.propertyType == 'House'}">
+        <strong>Bedrooms:</strong>
+        <span th:text="${property.numberOfBedrooms}"></span>
+      </p>
+
+      <p th:if="${property.propertyType == 'Apartment'}">
+        <strong>Floor:</strong>
+        <span th:text="${property.floorNumber}"></span>
+      </p>
+
+      <p>
+        <strong>Description:</strong>
+        <span th:text="${property.description}"></span>
+      </p>
 
       <a class="action-link" th:href="@{/properties/{id}(id=${property.id})}">
         View Details
@@ -103,7 +119,7 @@
 
       <hr />
     </div>
-    
+
     <script>
       const propertyType = document.querySelector(
         'select[name="propertyType"]',
