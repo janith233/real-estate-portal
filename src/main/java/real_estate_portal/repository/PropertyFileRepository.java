@@ -1,6 +1,8 @@
 package real_estate_portal.repository;
 
 import real_estate_portal.model.Property;
+import real_estate_portal.model.House;
+import real_estate_portal.model.Apartment;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,7 +31,33 @@ public class PropertyFileRepository {
                   String propertyType = data[4];
                   String description = data[5];
 
-                  Property property = new Property(
+              Property property;
+
+              if (propertyType.equals("House")) {
+
+                  property = new House(
+                          id,
+                          title,
+                          location,
+                          price,
+                          description,
+                          0
+                  );
+
+              } else if (propertyType.equals("Apartment")) {
+
+                  property = new Apartment(
+                          id,
+                          title,
+                          location,
+                          price,
+                          description,
+                          0
+                  );
+
+              } else {
+
+                  property = new Property(
                           id,
                           title,
                           location,
@@ -37,8 +65,9 @@ public class PropertyFileRepository {
                           propertyType,
                           description
                   );
+              }
 
-                  properties.add(property);
+              properties.add(property);
               }
           }
 
