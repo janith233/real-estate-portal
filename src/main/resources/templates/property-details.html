@@ -6,31 +6,46 @@
   </head>
   
   <body>
-      <div class="property-card"></div>
+    <div class="property-card">
 
-      <h1 th:text="${property.title}"></h1>
+        <h1 th:text="${property.title}"></h1>
 
-      <p>
-          Location:
-          <span th:text="${property.location}"></span>
-      </p>
+        <p>
+            <strong>Location:</strong>
+            <span th:text="${property.location}"></span>
+        </p>
 
-      <p>
-          Price:
-          <span th:text="${property.price}"></span>
-      </p>
+        <p>
+            <strong>Price:</strong>
+            <span th:text="${#numbers.formatDecimal(property.price, 0, 2)}"></span>
+        </p>
 
-      <p>
-          Property Type:
-          <span th:text="${property.propertyType}"></span>
-      </p>
+        <p>
+            <strong>Property Type:</strong>
+            <span th:text="${property.propertyType}"></span>
+        </p>
 
-      <p>
-          Description:
-          <span th:text="${property.description}"></span>
-      </p>
+        <p>
+            <strong>Description:</strong>
+            <span th:text="${property.description}"></span>
+        </p>
 
-      <a href="/properties">Back to Properties</a>
+        <p th:if="${property.propertyType == 'House'}">
+            <strong>Number of Bedrooms:</strong>
+            <span th:text="${property.numberOfBedrooms}"></span>
+        </p>
+
+        <p th:if="${property.propertyType == 'Apartment'}">
+            <strong>Floor Number:</strong>
+            <span th:text="${property.floorNumber}"></span>
+        </p>
+
+        <br>
+
+        <a class="action-link" href="/properties">
+            Back to Properties
+        </a>
+
     </div>
   </body>
   
