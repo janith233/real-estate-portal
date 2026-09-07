@@ -1,5 +1,6 @@
 package real_estate_portal.controller;
 
+
 import real_estate_portal.model.Apartment;
 import real_estate_portal.model.House;
 import real_estate_portal.model.Property;
@@ -32,33 +33,11 @@ public class PropertyController {
             @RequestParam(required = false, defaultValue = "") String sortBy,
             Model model) {
 
-        List<Property> properties;
-
-        if (keyword.isEmpty() && propertyType.isEmpty()
-                && minPrice.isEmpty() && maxPrice.isEmpty()) {
-
-            properties = service.getAllProperties();
-
-        } else if (keyword.isEmpty() && propertyType.isEmpty()) {
-
-            properties = service.filterByPrice(minPrice, maxPrice);
-
-        } else if (!keyword.isEmpty() && propertyType.isEmpty()) {
-
-            properties = service.searchProperties(keyword);
-
-        } else if (keyword.isEmpty() && !propertyType.isEmpty()) {
-
-            properties = service.filterByType(propertyType);
-
-        } else {
-
-            properties = service.searchFilterAndPrice(
-                    keyword,
-                    propertyType,
-                    minPrice,
-                    maxPrice);
-        }
+        List<Property> properties = service.filterProperties(
+                keyword,
+                propertyType,
+                minPrice,
+                maxPrice);
 
         properties = service.sortProperties(properties, sortBy);
 

@@ -31,7 +31,6 @@ public class PropertyService {
     }
 
     public void addProperty(Property property) {
-
         List<Property> properties = repository.getAllProperties();
 
         int nextId = 1;
@@ -55,66 +54,28 @@ public class PropertyService {
         repository.deleteProperty(id);
     }
 
-    public List<Property> searchProperties(String keyword) {
-        return repository.searchProperties(keyword);
-    }
+    public List<Property> sortProperties(List<Property> properties, String sortBy) {
 
-    public List<Property> filterByType(String propertyType) {
-        List<Property> properties = repository.getAllProperties();
-        List<Property> results = new ArrayList<>();
+        if (sortBy.equals("priceLow")) {
 
-        for (Property property : properties) {
+            properties.sort((property1, property2) ->
+                    Double.compare(property1.getPrice(), property2.getPrice()));
 
-            if (property.getPropertyType().equalsIgnoreCase(propertyType)) {
-                results.add(property);
-            }
+        } else if (sortBy.equals("priceHigh")) {
+
+            properties.sort((property1, property2) ->
+                    Double.compare(property2.getPrice(), property1.getPrice()));
+
+        } else if (sortBy.equals("title")) {
+
+            properties.sort((property1, property2) ->
+                    property1.getTitle().compareToIgnoreCase(property2.getTitle()));
         }
 
-        return results;
+        return properties;
     }
 
-    public List<Property> searchAndFilter(String keyword, String propertyType) {
-        List<Property> properties = repository.getAllProperties();
-        List<Property> results = new ArrayList<>();
-
-        for (Property property : properties) {
-
-            boolean matchesKeyword = property.getTitle().toLowerCase().contains(keyword.toLowerCase())
-                    || property.getLocation().toLowerCase().contains(keyword.toLowerCase())
-                    || property.getPropertyType().toLowerCase().contains(keyword.toLowerCase());
-
-            boolean matchesType = property.getPropertyType().equalsIgnoreCase(propertyType);
-
-            if (matchesKeyword && matchesType) {
-                results.add(property);
-            }
-        }
-
-        return results;
-    }
-
-    public List<Property> filterByPrice(String minPrice, String maxPrice) {
-
-        List<Property> properties = repository.getAllProperties();
-        List<Property> results = new ArrayList<>();
-
-        for (Property property : properties) {
-
-            boolean matchesMinPrice = minPrice.isEmpty()
-                    || property.getPrice() >= Double.parseDouble(minPrice);
-
-            boolean matchesMaxPrice = maxPrice.isEmpty()
-                    || property.getPrice() <= Double.parseDouble(maxPrice);
-
-            if (matchesMinPrice && matchesMaxPrice) {
-                results.add(property);
-            }
-        }
-
-        return results;
-    }
-
-    public List<Property> searchFilterAndPrice(
+    public List<Property> filterProperties(
             String keyword,
             String propertyType,
             String minPrice,
@@ -125,11 +86,13 @@ public class PropertyService {
 
         for (Property property : properties) {
 
-            boolean matchesKeyword = property.getTitle().toLowerCase().contains(keyword.toLowerCase())
+            boolean matchesKeyword = keyword.isEmpty()
+                    || property.getTitle().toLowerCase().contains(keyword.toLowerCase())
                     || property.getLocation().toLowerCase().contains(keyword.toLowerCase())
                     || property.getPropertyType().toLowerCase().contains(keyword.toLowerCase());
 
-            boolean matchesType = property.getPropertyType().equalsIgnoreCase(propertyType);
+            boolean matchesType = propertyType.isEmpty()
+                    || property.getPropertyType().equalsIgnoreCase(propertyType);
 
             boolean matchesMinPrice = minPrice.isEmpty()
                     || property.getPrice() >= Double.parseDouble(minPrice);
@@ -137,8 +100,10 @@ public class PropertyService {
             boolean matchesMaxPrice = maxPrice.isEmpty()
                     || property.getPrice() <= Double.parseDouble(maxPrice);
 
-            if (matchesKeyword && matchesType
-                    && matchesMinPrice && matchesMaxPrice) {
+            if (matchesKeyword
+                    && matchesType
+                    && matchesMinPrice
+                    && matchesMaxPrice) {
 
                 results.add(property);
             }
@@ -146,23 +111,4 @@ public class PropertyService {
 
         return results;
     }
-
-    public List<Property> sortProperties(List<Property> properties, String sortBy) {
-
-        if (sortBy.equals("priceLow")) {
-
-            properties.sort((property1, property2) -> Double.compare(property1.getPrice(), property2.getPrice()));
-
-        } else if (sortBy.equals("priceHigh")) {
-
-            properties.sort((property1, property2) -> Double.compare(property2.getPrice(), property1.getPrice()));
-
-        } else if (sortBy.equals("title")) {
-
-            properties.sort((property1, property2) -> property1.getTitle().compareToIgnoreCase(property2.getTitle()));
-        }
-
-        return properties;
-    }
-
 }
