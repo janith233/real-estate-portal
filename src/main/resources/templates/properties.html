@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Properties</title>
+</head>
+<body>
+
+<h1>Available Properties</h1>
+
+<div th:each="property : ${properties}">
+
+    <h2 th:text="${property.title}"></h2>
+
+    <p th:text="${property.location}"></p>
+
+    <p th:text="${property.price}"></p>
+
+    <p th:text="${property.propertyType}"></p>
+
+    <p th:text="${property.description}"></p>
+
+    <hr>
+
+</div>
+
+</body>
+</html>
