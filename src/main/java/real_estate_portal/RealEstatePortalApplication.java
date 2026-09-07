@@ -1,7 +1,8 @@
 package real_estate_portal;
 
 import real_estate_portal.model.Property;
-import real_estate_portal.repository.PropertyFileRepository;
+import real_estate_portal.service.PropertyService;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -14,13 +15,12 @@ public class RealEstatePortalApplication {
 
         SpringApplication.run(RealEstatePortalApplication.class, args);
 
-        PropertyFileRepository repository = new PropertyFileRepository();
+        PropertyService service = new PropertyService();
 
-        List<Property> properties = repository.getAllProperties();
+        List<Property> properties = service.getAllProperties();
 
         for (Property property : properties) {
             System.out.println(property.getId() + " - " + property.getTitle());
         }
     }
-
 }
