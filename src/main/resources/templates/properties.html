@@ -42,7 +42,15 @@
       <br><br>
 
       <label>Property Type:</label>
-      <input type="text" name="propertyType" required>
+        <select name="propertyType" required>
+            <option value="">Select Property Type</option>
+            <option value="House">House</option>
+            <option value="Apartment">Apartment</option>
+            <option value="Land">Land</option>
+        </select>
+
+        <label>Additional Value:</label>
+        <input type="number" name="extraValue" min="0" value="0" required>
       <br><br>
 
       <label>Description:</label>

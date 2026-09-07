@@ -1,5 +1,7 @@
 package real_estate_portal.controller;
 
+import real_estate_portal.model.Apartment;
+import real_estate_portal.model.House;
 import real_estate_portal.model.Property;
 import real_estate_portal.service.PropertyService;
 import org.springframework.stereotype.Controller;
@@ -50,16 +52,41 @@ public class PropertyController {
             @RequestParam String location,
             @RequestParam double price,
             @RequestParam String propertyType,
+            @RequestParam int extraValue,
             @RequestParam String description) {
 
-        Property property = new Property(
-                0,
-                title,
-                location,
-                price,
-                propertyType,
-                description
-        );
+        Property property;
+
+        if (propertyType.equals("House")) {
+
+            property = new House(
+                    0,
+                    title,
+                    location,
+                    price,
+                    description,
+                    extraValue);
+
+        } else if (propertyType.equals("Apartment")) {
+
+            property = new Apartment(
+                    0,
+                    title,
+                    location,
+                    price,
+                    description,
+                    extraValue);
+
+        } else {
+
+            property = new Property(
+                    0,
+                    title,
+                    location,
+                    price,
+                    propertyType,
+                    description);
+        }
 
         service.addProperty(property);
 
@@ -71,7 +98,21 @@ public class PropertyController {
 
         Property property = service.getPropertyById(id);
 
+        int extraValue = 0;
+
+        if (property instanceof House) {
+
+            House house = (House) property;
+            extraValue = house.getNumberOfBedrooms();
+
+        } else if (property instanceof Apartment) {
+
+            Apartment apartment = (Apartment) property;
+            extraValue = apartment.getFloorNumber();
+        }
+
         model.addAttribute("property", property);
+        model.addAttribute("extraValue", extraValue);
 
         return "property-edit";
     }
@@ -83,16 +124,41 @@ public class PropertyController {
             @RequestParam String location,
             @RequestParam double price,
             @RequestParam String propertyType,
+            @RequestParam int extraValue,
             @RequestParam String description) {
 
-        Property property = new Property(
-                id,
-                title,
-                location,
-                price,
-                propertyType,
-                description
-        );
+        Property property;
+
+        if (propertyType.equals("House")) {
+
+            property = new House(
+                    id,
+                    title,
+                    location,
+                    price,
+                    description,
+                    extraValue);
+
+        } else if (propertyType.equals("Apartment")) {
+
+            property = new Apartment(
+                    id,
+                    title,
+                    location,
+                    price,
+                    description,
+                    extraValue);
+
+        } else {
+
+            property = new Property(
+                    id,
+                    title,
+                    location,
+                    price,
+                    propertyType,
+                    description);
+        }
 
         service.updateProperty(property);
 

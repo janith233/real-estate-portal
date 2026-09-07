@@ -12,161 +12,185 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PropertyFileRepository {
-  public List<Property> getAllProperties() {
-      List<Property> properties = new ArrayList<>();
+    public List<Property> getAllProperties() {
+        List<Property> properties = new ArrayList<>();
 
-      try (BufferedReader reader = new BufferedReader(new FileReader("data/properties.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/properties.txt"))) {
 
-          String line;
+            String line;
 
-          while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
 
-              String[] data = line.split("\\|");
+                String[] data = line.split("\\|");
 
-              if (data.length == 6) {
-                  int id = Integer.parseInt(data[0]);
-                  String title = data[1];
-                  String location = data[2];
-                  double price = Double.parseDouble(data[3]);
-                  String propertyType = data[4];
-                  String description = data[5];
+                if (data.length == 6 || data.length == 7) {
+                    int id = Integer.parseInt(data[0]);
+                    String title = data[1];
+                    String location = data[2];
+                    double price = Double.parseDouble(data[3]);
+                    String propertyType = data[4];
+                    String description = data[5];
+                    int extraValue = 0;
 
-              Property property;
+                    if (data.length == 7) {
+                        extraValue = Integer.parseInt(data[6]);
+                    }
 
-              if (propertyType.equals("House")) {
+                    Property property;
 
-                  property = new House(
-                          id,
-                          title,
-                          location,
-                          price,
-                          description,
-                          0
-                  );
+                    if (propertyType.equals("House")) {
 
-              } else if (propertyType.equals("Apartment")) {
+                        property = new House(
+                                id,
+                                title,
+                                location,
+                                price,
+                                description,
+                                extraValue);
 
-                  property = new Apartment(
-                          id,
-                          title,
-                          location,
-                          price,
-                          description,
-                          0
-                  );
+                    } else if (propertyType.equals("Apartment")) {
 
-              } else {
+                        property = new Apartment(
+                                id,
+                                title,
+                                location,
+                                price,
+                                description,
+                                extraValue);
+                    } else {
 
-                  property = new Property(
-                          id,
-                          title,
-                          location,
-                          price,
-                          propertyType,
-                          description
-                  );
-              }
+                        property = new Property(
+                                id,
+                                title,
+                                location,
+                                price,
+                                propertyType,
+                                description);
+                    }
 
-              properties.add(property);
-              }
-          }
+                    properties.add(property);
+                }
+            }
 
-      } catch (IOException e) {
-          System.out.println("Error reading property file: " + e.getMessage());
-      }
+        } catch (IOException e) {
+            System.out.println("Error reading property file: " + e.getMessage());
+        }
 
-      return properties;
-  }
+        return properties;
+    }
 
-  public void addProperty(Property property) {
+    public void addProperty(Property property) {
 
-      try (FileWriter writer = new FileWriter("data/properties.txt", true)) {
+        try (FileWriter writer = new FileWriter("data/properties.txt", true)) {
 
-          writer.write(
-                  property.getId() + "|" +
-                  property.getTitle() + "|" +
-                  property.getLocation() + "|" +
-                  property.getPrice() + "|" +
-                  property.getPropertyType() + "|" +
-                  property.getDescription() +
-                  System.lineSeparator()
-          );
+            writer.write(
+                    property.getId() + "|" +
+                    property.getTitle() + "|" +
+                    property.getLocation() + "|" +
+                    property.getPrice() + "|" +
+                    property.getPropertyType() + "|" +
+                    property.getDescription()
+            );
 
-      } catch (IOException e) {
-          System.out.println("Error writing property to file: " + e.getMessage());
-      }
-  }
+            if (property instanceof House) {
 
-  public void updateProperty(Property updatedProperty) {
+                House house = (House) property;
+                writer.write("|" + house.getNumberOfBedrooms());
 
-      List<Property> properties = getAllProperties();
+            } else if (property instanceof Apartment) {
 
-      try (FileWriter writer = new FileWriter("data/properties.txt")) {
+                Apartment apartment = (Apartment) property;
+                writer.write("|" + apartment.getFloorNumber());
+            }
 
-          for (Property property : properties) {
+            writer.write(System.lineSeparator());
 
-              if (property.getId() == updatedProperty.getId()) {
-                  property = updatedProperty;
-              }
+        } catch (IOException e) {
+            System.out.println("Error writing property to file: " + e.getMessage());
+        }
+    }
 
-              writer.write(
-                      property.getId() + "|" +
-                      property.getTitle() + "|" +
-                      property.getLocation() + "|" +
-                      property.getPrice() + "|" +
-                      property.getPropertyType() + "|" +
-                      property.getDescription() +
-                      System.lineSeparator()
-              );
-          }
+    public void updateProperty(Property updatedProperty) {
 
-      } catch (IOException e) {
-          System.out.println("Error updating property: " + e.getMessage());
-      }
-  }
+        List<Property> properties = getAllProperties();
 
-  public void deleteProperty(int id) {
+        try (FileWriter writer = new FileWriter("data/properties.txt")) {
 
-      List<Property> properties = getAllProperties();
+            for (Property property : properties) {
 
-      try (FileWriter writer = new FileWriter("data/properties.txt")) {
+                if (property.getId() == updatedProperty.getId()) {
+                    property = updatedProperty;
+                }
 
-          for (Property property : properties) {
+                writer.write(
+                        property.getId() + "|" +
+                        property.getTitle() + "|" +
+                        property.getLocation() + "|" +
+                        property.getPrice() + "|" +
+                        property.getPropertyType() + "|" +
+                        property.getDescription()
+                );
 
-              if (property.getId() != id) {
+                if (property instanceof House) {
 
-                  writer.write(
-                          property.getId() + "|" +
-                          property.getTitle() + "|" +
-                          property.getLocation() + "|" +
-                          property.getPrice() + "|" +
-                          property.getPropertyType() + "|" +
-                          property.getDescription() +
-                          System.lineSeparator()
-                  );
-              }
-          }
+                    House house = (House) property;
+                    writer.write("|" + house.getNumberOfBedrooms());
 
-      } catch (IOException e) {
-          System.out.println("Error deleting property: " + e.getMessage());
-      }
-  }
+                } else if (property instanceof Apartment) {
 
-  public List<Property> searchProperties(String keyword) {
+                    Apartment apartment = (Apartment) property;
+                    writer.write("|" + apartment.getFloorNumber());
+                }
 
-      List<Property> properties = getAllProperties();
-      List<Property> results = new ArrayList<>();
+                writer.write(System.lineSeparator());
+            }
 
-      for (Property property : properties) {
+        } catch (IOException e) {
+            System.out.println("Error updating property: " + e.getMessage());
+        }
+    }
 
-          if (property.getTitle().toLowerCase().contains(keyword.toLowerCase())
-                  || property.getLocation().toLowerCase().contains(keyword.toLowerCase())
-                  || property.getPropertyType().toLowerCase().contains(keyword.toLowerCase())) {
+    public void deleteProperty(int id) {
 
-              results.add(property);
-          }
-      }
+        List<Property> properties = getAllProperties();
 
-      return results;
-  }
+        try (FileWriter writer = new FileWriter("data/properties.txt")) {
+
+            for (Property property : properties) {
+
+                if (property.getId() != id) {
+
+                    writer.write(
+                            property.getId() + "|" +
+                                    property.getTitle() + "|" +
+                                    property.getLocation() + "|" +
+                                    property.getPrice() + "|" +
+                                    property.getPropertyType() + "|" +
+                                    property.getDescription() +
+                                    System.lineSeparator());
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error deleting property: " + e.getMessage());
+        }
+    }
+
+    public List<Property> searchProperties(String keyword) {
+
+        List<Property> properties = getAllProperties();
+        List<Property> results = new ArrayList<>();
+
+        for (Property property : properties) {
+
+            if (property.getTitle().toLowerCase().contains(keyword.toLowerCase())
+                    || property.getLocation().toLowerCase().contains(keyword.toLowerCase())
+                    || property.getPropertyType().toLowerCase().contains(keyword.toLowerCase())) {
+
+                results.add(property);
+            }
+        }
+
+        return results;
+    }
 }

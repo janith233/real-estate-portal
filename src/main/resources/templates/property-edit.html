@@ -24,7 +24,25 @@
         <input type="number" name="price" th:value="${property.price}" required>
 
         <label>Property Type:</label>
-        <input type="text" name="propertyType" th:value="${property.propertyType}" required>
+        <select name="propertyType" required>
+            <option value="House"
+                    th:selected="${property.propertyType == 'House'}">
+                House
+            </option>
+
+            <option value="Apartment"
+                    th:selected="${property.propertyType == 'Apartment'}">
+                Apartment
+            </option>
+
+            <option value="Land"
+                    th:selected="${property.propertyType == 'Land'}">
+                Land
+            </option>
+        </select>
+
+        <label>Additional Value:</label>
+        <input type="number" name="extraValue" min="0" th:value="${extraValue}" required>
 
         <label>Description:</label>
         <textarea name="description" required th:text="${property.description}"></textarea>
