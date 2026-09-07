@@ -208,4 +208,9 @@ public class PropertyController {
 
         return "redirect:/properties";
     }
+
+    @GetMapping("/")
+    public String showHomePage() {
+        return "home";
+    }
 }
