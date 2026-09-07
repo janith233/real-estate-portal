@@ -19,6 +19,10 @@
 
     <p th:text="${property.description}"></p>
 
+    <a th:href="@{/properties/{id}(id=${property.id})}">
+      View Details
+    </a>
+
     <hr>
 
 </div>

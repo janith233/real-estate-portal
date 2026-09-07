@@ -16,4 +16,16 @@ public class PropertyService {
     public List<Property> getAllProperties() {
         return repository.getAllProperties();
     }
+
+    public Property getPropertyById(int id) {
+    List<Property> properties = repository.getAllProperties();
+
+    for (Property property : properties) {
+        if (property.getId() == id) {
+            return property;
+        }
+    }
+
+    return null;
+}
 }

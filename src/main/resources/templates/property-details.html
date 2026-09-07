@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Property Details</title>
+</head>
+<body>
+
+<h1 th:text="${property.title}"></h1>
+
+<p>
+    Location:
+    <span th:text="${property.location}"></span>
+</p>
+
+<p>
+    Price:
+    <span th:text="${property.price}"></span>
+</p>
+
+<p>
+    Property Type:
+    <span th:text="${property.propertyType}"></span>
+</p>
+
+<p>
+    Description:
+    <span th:text="${property.description}"></span>
+</p>
+
+<a href="/properties">Back to Properties</a>
+
+</body>
+</html>
