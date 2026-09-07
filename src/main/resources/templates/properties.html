@@ -1,104 +1,132 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <title>Properties</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
-<body>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+  </head>
+  <body>
+    <h1>Available Properties</h1>
 
-<h1>Available Properties</h1>
+    <h2>Search Properties</h2>
 
-<h2>Search Properties</h2>
+    <form action="/properties" method="get">
+      <input
+        type="text"
+        name="keyword"
+        placeholder="Search by title, location or type"
+        th:value="${keyword}"
+      />
 
-<form action="/properties" method="get">
-
-    <input type="text"
-           name="keyword"
-           placeholder="Search by title, location or type"
-           th:value="${keyword}">
-
-    <button type="submit">Search</button>
-
-</form>
-
-<br>
-
-<div class="property-form">
-
-  <h2>Add New Property</h2>
-
-  <form action="/properties/add" method="post">
-
-      <label>Title:</label>
-      <input type="text" name="title" required>
-      <br><br>
-
-      <label>Location:</label>
-      <input type="text" name="location" required>
-      <br><br>
-
-      <label>Price:</label>
-      <input type="number" name="price" required>
-      <br><br>
-
-      <label>Property Type:</label>
-        <select name="propertyType" required>
-            <option value="">Select Property Type</option>
-            <option value="House">House</option>
-            <option value="Apartment">Apartment</option>
-            <option value="Land">Land</option>
-        </select>
-
-        <label>Additional Value:</label>
-        <input type="number" name="extraValue" min="0" value="0" required>
-      <br><br>
-
-      <label>Description:</label>
-      <textarea name="description" required></textarea>
-      <br><br>
-
-      <button type="submit">Add Property</button>
-
-  </form>
-
-</div>
-
-<hr>
-
-<div class="property-card" th:each="property : ${properties}">
-
-    <h2 th:text="${property.title}"></h2>
-
-    <p th:text="${property.location}"></p>
-
-    <p>
-        <strong>Price:</strong>
-        <span th:text="${#numbers.formatDecimal(property.price, 0, 2)}"></span>
-    </p>
-
-    <p th:text="${property.propertyType}"></p>
-
-    <p th:text="${property.description}"></p>
-
-    <a class="action-link" th:href="@{/properties/{id}(id=${property.id})}">
-      View Details
-    </a>
-
-    <a class="action-link" th:href="@{/properties/edit/{id}(id=${property.id})}">
-        Edit
-    </a>    
-
-    <form action="/properties/delete" method="post">
-
-        <input type="hidden" name="id" th:value="${property.id}">
-
-        <button class="delete-button" type="submit">Delete</button>
-
+      <button type="submit">Search</button>
     </form>
 
-<hr>
+    <br />
 
-</div>
+    <div class="property-form">
+      <h2>Add New Property</h2>
 
-</body>
+      <form action="/properties/add" method="post">
+        <label>Title:</label>
+        <input type="text" name="title" required />
+        <br /><br />
+
+        <label>Location:</label>
+        <input type="text" name="location" required />
+        <br /><br />
+
+        <label>Price:</label>
+        <input type="number" name="price" required />
+        <br /><br />
+
+        <label>Property Type:</label>
+        <select name="propertyType" required>
+          <option value="">Select Property Type</option>
+          <option value="House">House</option>
+          <option value="Apartment">Apartment</option>
+          <option value="Land">Land</option>
+        </select>
+
+        <div id="extraValueSection">
+          <label id="extraValueLabel">Additional Value:</label>
+
+          <input
+            type="number"
+            name="extraValue"
+            id="extraValue"
+            min="0"
+            value="0"
+            required
+          />
+        </div>
+        <br /><br />
+
+        <label>Description:</label>
+        <textarea name="description" required></textarea>
+        <br /><br />
+
+        <button type="submit">Add Property</button>
+      </form>
+    </div>
+
+    <hr />
+
+    <div class="property-card" th:each="property : ${properties}">
+      <h2 th:text="${property.title}"></h2>
+
+      <p th:text="${property.location}"></p>
+
+      <p>
+        <strong>Price:</strong>
+        <span th:text="${#numbers.formatDecimal(property.price, 0, 2)}"></span>
+      </p>
+
+      <p th:text="${property.propertyType}"></p>
+
+      <p th:text="${property.description}"></p>
+
+      <a class="action-link" th:href="@{/properties/{id}(id=${property.id})}">
+        View Details
+      </a>
+
+      <a
+        class="action-link"
+        th:href="@{/properties/edit/{id}(id=${property.id})}"
+      >
+        Edit
+      </a>
+
+      <form action="/properties/delete" method="post">
+        <input type="hidden" name="id" th:value="${property.id}" />
+
+        <button class="delete-button" type="submit">Delete</button>
+      </form>
+
+      <hr />
+    </div>
+    
+    <script>
+      const propertyType = document.querySelector(
+        'select[name="propertyType"]',
+      );
+      const extraValueSection = document.getElementById("extraValueSection");
+      const extraValueLabel = document.getElementById("extraValueLabel");
+      const extraValue = document.getElementById("extraValue");
+
+      propertyType.addEventListener("change", function () {
+        if (propertyType.value === "House") {
+          extraValueLabel.textContent = "Number of Bedrooms:";
+          extraValueSection.style.display = "block";
+          extraValue.required = true;
+        } else if (propertyType.value === "Apartment") {
+          extraValueLabel.textContent = "Floor Number:";
+          extraValueSection.style.display = "block";
+          extraValue.required = true;
+        } else {
+          extraValueSection.style.display = "none";
+          extraValue.required = false;
+          extraValue.value = 0;
+        }
+      });
+    </script>
+  </body>
 </html>
