@@ -1,0 +1,50 @@
+package real_estate_portal.repository;
+
+import real_estate_portal.model.Property;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PropertyFileRepository {
+  public List<Property> getAllProperties() {
+      List<Property> properties = new ArrayList<>();
+
+      try (BufferedReader reader = new BufferedReader(new FileReader("data/properties.txt"))) {
+
+          String line;
+
+          while ((line = reader.readLine()) != null) {
+
+              String[] data = line.split("\\|");
+
+              if (data.length == 6) {
+                  int id = Integer.parseInt(data[0]);
+                  String title = data[1];
+                  String location = data[2];
+                  double price = Double.parseDouble(data[3]);
+                  String propertyType = data[4];
+                  String description = data[5];
+
+                  Property property = new Property(
+                          id,
+                          title,
+                          location,
+                          price,
+                          propertyType,
+                          description
+                  );
+
+                  properties.add(property);
+              }
+          }
+
+      } catch (IOException e) {
+          System.out.println("Error reading property file: " + e.getMessage());
+      }
+
+      return properties;
+  }
+}
