@@ -9,7 +9,7 @@
 
     <h2>Search Properties</h2>
 
-    <form action="/properties" method="get">
+    <form class="search-section" action="/properties" method="get">
       <input
         type="text"
         name="keyword"
@@ -79,14 +79,14 @@
         <br /><br />
 
         <label>Property Type:</label>
-        <select name="propertyType" required>
+        <select name="propertyType" id="propertyType" required>
           <option value="">Select Property Type</option>
           <option value="House">House</option>
           <option value="Apartment">Apartment</option>
           <option value="Land">Land</option>
         </select>
 
-        <div id="extraValueSection">
+        <div id="extraValueSection" style="display: none">
           <label id="extraValueLabel">Additional Value:</label>
 
           <input
@@ -161,9 +161,7 @@
     </div>
 
     <script>
-      const propertyType = document.querySelector(
-        'select[name="propertyType"]',
-      );
+      const propertyType = document.getElementById("propertyType");
       const extraValueSection = document.getElementById("extraValueSection");
       const extraValueLabel = document.getElementById("extraValueLabel");
       const extraValue = document.getElementById("extraValue");
