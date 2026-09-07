@@ -24,20 +24,41 @@ public class PropertyController {
     public String showProperties(
             @RequestParam(required = false, defaultValue = "") String keyword,
             @RequestParam(required = false, defaultValue = "") String propertyType,
+            @RequestParam(required = false, defaultValue = "") String minPrice,
+            @RequestParam(required = false, defaultValue = "") String maxPrice,
             Model model) {
+        if (keyword.isEmpty() && propertyType.isEmpty()
+                && minPrice.isEmpty() && maxPrice.isEmpty()) {
 
-        if (keyword.isEmpty() && propertyType.isEmpty()) {
             model.addAttribute("properties", service.getAllProperties());
+
+        } else if (keyword.isEmpty() && propertyType.isEmpty()) {
+
+            model.addAttribute("properties", service.filterByPrice(minPrice, maxPrice));
+
         } else if (!keyword.isEmpty() && propertyType.isEmpty()) {
+
             model.addAttribute("properties", service.searchProperties(keyword));
+
         } else if (keyword.isEmpty() && !propertyType.isEmpty()) {
+
             model.addAttribute("properties", service.filterByType(propertyType));
+
         } else {
-            model.addAttribute("properties", service.searchAndFilter(keyword, propertyType));
+
+            model.addAttribute(
+                    "properties",
+                    service.searchFilterAndPrice(
+                            keyword,
+                            propertyType,
+                            minPrice,
+                            maxPrice));
         }
 
         model.addAttribute("keyword", keyword);
         model.addAttribute("propertyType", propertyType);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
 
         return "properties";
     }

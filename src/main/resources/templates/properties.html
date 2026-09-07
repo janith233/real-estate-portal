@@ -30,6 +30,20 @@
         </option>
       </select>
 
+      <input
+        type="number"
+        name="minPrice"
+        placeholder="Minimum Price"
+        th:value="${minPrice}"
+      />
+
+      <input
+        type="number"
+        name="maxPrice"
+        placeholder="Maximum Price"
+        th:value="${maxPrice}"
+      />
+
       <button type="submit">Search</button>
     </form>
 
