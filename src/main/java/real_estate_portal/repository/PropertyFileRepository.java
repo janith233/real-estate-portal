@@ -122,4 +122,22 @@ public class PropertyFileRepository {
           System.out.println("Error deleting property: " + e.getMessage());
       }
   }
+
+  public List<Property> searchProperties(String keyword) {
+
+      List<Property> properties = getAllProperties();
+      List<Property> results = new ArrayList<>();
+
+      for (Property property : properties) {
+
+          if (property.getTitle().toLowerCase().contains(keyword.toLowerCase())
+                  || property.getLocation().toLowerCase().contains(keyword.toLowerCase())
+                  || property.getPropertyType().toLowerCase().contains(keyword.toLowerCase())) {
+
+              results.add(property);
+          }
+      }
+
+      return results;
+  }
 }

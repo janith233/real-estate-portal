@@ -53,4 +53,8 @@ public class PropertyService {
     public void deleteProperty(int id) {
         repository.deleteProperty(id);
     }
+
+    public List<Property> searchProperties(String keyword) {
+        return repository.searchProperties(keyword);
+    }
 }

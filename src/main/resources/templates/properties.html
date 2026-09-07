@@ -8,6 +8,21 @@
 
 <h1>Available Properties</h1>
 
+<h2>Search Properties</h2>
+
+<form action="/properties" method="get">
+
+    <input type="text"
+           name="keyword"
+           placeholder="Search by title, location or type"
+           th:value="${keyword}">
+
+    <button type="submit">Search</button>
+
+</form>
+
+<br>
+
 <div class="property-form">
 
   <h2>Add New Property</h2>

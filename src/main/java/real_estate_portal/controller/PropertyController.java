@@ -19,8 +19,17 @@ public class PropertyController {
     }
 
     @GetMapping("/properties")
-    public String showProperties(Model model) {
-        model.addAttribute("properties", service.getAllProperties());
+    public String showProperties(
+            @RequestParam(required = false, defaultValue = "") String keyword,
+            Model model) {
+
+        if (keyword.isEmpty()) {
+            model.addAttribute("properties", service.getAllProperties());
+        } else {
+            model.addAttribute("properties", service.searchProperties(keyword));
+        }
+
+        model.addAttribute("keyword", keyword);
 
         return "properties";
     }
