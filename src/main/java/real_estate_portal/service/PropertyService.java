@@ -147,4 +147,22 @@ public class PropertyService {
         return results;
     }
 
+    public List<Property> sortProperties(List<Property> properties, String sortBy) {
+
+        if (sortBy.equals("priceLow")) {
+
+            properties.sort((property1, property2) -> Double.compare(property1.getPrice(), property2.getPrice()));
+
+        } else if (sortBy.equals("priceHigh")) {
+
+            properties.sort((property1, property2) -> Double.compare(property2.getPrice(), property1.getPrice()));
+
+        } else if (sortBy.equals("title")) {
+
+            properties.sort((property1, property2) -> property1.getTitle().compareToIgnoreCase(property2.getTitle()));
+        }
+
+        return properties;
+    }
+
 }

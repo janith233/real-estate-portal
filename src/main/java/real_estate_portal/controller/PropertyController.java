@@ -4,6 +4,9 @@ import real_estate_portal.model.Apartment;
 import real_estate_portal.model.House;
 import real_estate_portal.model.Property;
 import real_estate_portal.service.PropertyService;
+
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,39 +29,45 @@ public class PropertyController {
             @RequestParam(required = false, defaultValue = "") String propertyType,
             @RequestParam(required = false, defaultValue = "") String minPrice,
             @RequestParam(required = false, defaultValue = "") String maxPrice,
+            @RequestParam(required = false, defaultValue = "") String sortBy,
             Model model) {
+
+        List<Property> properties;
+
         if (keyword.isEmpty() && propertyType.isEmpty()
                 && minPrice.isEmpty() && maxPrice.isEmpty()) {
 
-            model.addAttribute("properties", service.getAllProperties());
+            properties = service.getAllProperties();
 
         } else if (keyword.isEmpty() && propertyType.isEmpty()) {
 
-            model.addAttribute("properties", service.filterByPrice(minPrice, maxPrice));
+            properties = service.filterByPrice(minPrice, maxPrice);
 
         } else if (!keyword.isEmpty() && propertyType.isEmpty()) {
 
-            model.addAttribute("properties", service.searchProperties(keyword));
+            properties = service.searchProperties(keyword);
 
         } else if (keyword.isEmpty() && !propertyType.isEmpty()) {
 
-            model.addAttribute("properties", service.filterByType(propertyType));
+            properties = service.filterByType(propertyType);
 
         } else {
 
-            model.addAttribute(
-                    "properties",
-                    service.searchFilterAndPrice(
-                            keyword,
-                            propertyType,
-                            minPrice,
-                            maxPrice));
+            properties = service.searchFilterAndPrice(
+                    keyword,
+                    propertyType,
+                    minPrice,
+                    maxPrice);
         }
 
+        properties = service.sortProperties(properties, sortBy);
+
+        model.addAttribute("properties", properties);
         model.addAttribute("keyword", keyword);
         model.addAttribute("propertyType", propertyType);
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("sortBy", sortBy);
 
         return "properties";
     }
