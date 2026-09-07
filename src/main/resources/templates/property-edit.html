@@ -2,42 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Edit Property</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-<h1>Edit Property</h1>
+<div class="property-form">
 
-<form action="/properties/update" method="post">
+    <h1>Edit Property</h1>
 
-    <input type="hidden" name="id" th:value="${property.id}">
+    <form action="/properties/update" method="post">
 
-    <label>Title:</label>
-    <input type="text" name="title" th:value="${property.title}" required>
-    <br><br>
+        <input type="hidden" name="id" th:value="${property.id}">
 
-    <label>Location:</label>
-    <input type="text" name="location" th:value="${property.location}" required>
-    <br><br>
+        <label>Title:</label>
+        <input type="text" name="title" th:value="${property.title}" required>
 
-    <label>Price:</label>
-    <input type="number" name="price" th:value="${property.price}" required>
-    <br><br>
+        <label>Location:</label>
+        <input type="text" name="location" th:value="${property.location}" required>
 
-    <label>Property Type:</label>
-    <input type="text" name="propertyType" th:value="${property.propertyType}" required>
-    <br><br>
+        <label>Price:</label>
+        <input type="number" name="price" th:value="${property.price}" required>
 
-    <label>Description:</label>
-    <textarea name="description" required th:text="${property.description}"></textarea>
-    <br><br>
+        <label>Property Type:</label>
+        <input type="text" name="propertyType" th:value="${property.propertyType}" required>
 
-    <button type="submit">Update Property</button>
+        <label>Description:</label>
+        <textarea name="description" required th:text="${property.description}"></textarea>
 
-</form>
+        <button type="submit">Update Property</button>
 
-<br>
+    </form>
 
-<a href="/properties">Back to Properties</a>
+    <br>
+
+    <a class="action-link" href="/properties">
+        Back to Properties
+    </a>
+
+</div>
 
 </body>
 </html>
