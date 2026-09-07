@@ -4,6 +4,7 @@ import real_estate_portal.model.Property;
 import real_estate_portal.repository.PropertyFileRepository;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class PropertyService {
 
@@ -57,4 +58,39 @@ public class PropertyService {
     public List<Property> searchProperties(String keyword) {
         return repository.searchProperties(keyword);
     }
+
+    public List<Property> filterByType(String propertyType) {
+        List<Property> properties = repository.getAllProperties();
+        List<Property> results = new ArrayList<>();
+
+        for (Property property : properties) {
+
+            if (property.getPropertyType().equalsIgnoreCase(propertyType)) {
+                results.add(property);
+            }
+        }
+
+        return results;
+    }
+
+    public List<Property> searchAndFilter(String keyword, String propertyType) {
+        List<Property> properties = repository.getAllProperties();
+        List<Property> results = new ArrayList<>();
+
+        for (Property property : properties) {
+
+            boolean matchesKeyword = property.getTitle().toLowerCase().contains(keyword.toLowerCase())
+                    || property.getLocation().toLowerCase().contains(keyword.toLowerCase())
+                    || property.getPropertyType().toLowerCase().contains(keyword.toLowerCase());
+
+            boolean matchesType = property.getPropertyType().equalsIgnoreCase(propertyType);
+
+            if (matchesKeyword && matchesType) {
+                results.add(property);
+            }
+        }
+
+        return results;
+    }
+
 }

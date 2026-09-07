@@ -17,6 +17,19 @@
         th:value="${keyword}"
       />
 
+      <select name="propertyType">
+        <option value="">All Property Types</option>
+        <option value="House" th:selected="${propertyType == 'House'}">
+          House
+        </option>
+        <option value="Apartment" th:selected="${propertyType == 'Apartment'}">
+          Apartment
+        </option>
+        <option value="Land" th:selected="${propertyType == 'Land'}">
+          Land
+        </option>
+      </select>
+
       <button type="submit">Search</button>
     </form>
 

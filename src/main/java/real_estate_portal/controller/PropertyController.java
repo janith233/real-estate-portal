@@ -23,15 +23,21 @@ public class PropertyController {
     @GetMapping("/properties")
     public String showProperties(
             @RequestParam(required = false, defaultValue = "") String keyword,
+            @RequestParam(required = false, defaultValue = "") String propertyType,
             Model model) {
 
-        if (keyword.isEmpty()) {
+        if (keyword.isEmpty() && propertyType.isEmpty()) {
             model.addAttribute("properties", service.getAllProperties());
-        } else {
+        } else if (!keyword.isEmpty() && propertyType.isEmpty()) {
             model.addAttribute("properties", service.searchProperties(keyword));
+        } else if (keyword.isEmpty() && !propertyType.isEmpty()) {
+            model.addAttribute("properties", service.filterByType(propertyType));
+        } else {
+            model.addAttribute("properties", service.searchAndFilter(keyword, propertyType));
         }
 
         model.addAttribute("keyword", keyword);
+        model.addAttribute("propertyType", propertyType);
 
         return "properties";
     }
