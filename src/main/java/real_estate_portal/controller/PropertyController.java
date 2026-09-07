@@ -89,4 +89,12 @@ public class PropertyController {
 
         return "redirect:/properties";
     }
+
+    @PostMapping("/properties/delete")
+    public String deleteProperty(@RequestParam int id) {
+
+        service.deleteProperty(id);
+
+        return "redirect:/properties";
+    }
 }

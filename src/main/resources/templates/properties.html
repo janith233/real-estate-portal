@@ -57,6 +57,14 @@
         Edit
     </a>    
 
+    <form action="/properties/delete" method="post">
+
+        <input type="hidden" name="id" th:value="${property.id}">
+
+        <button type="submit">Delete</button>
+
+    </form>
+
 <hr>
 
 </div>

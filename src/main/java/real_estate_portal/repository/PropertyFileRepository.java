@@ -95,4 +95,31 @@ public class PropertyFileRepository {
           System.out.println("Error updating property: " + e.getMessage());
       }
   }
+
+  public void deleteProperty(int id) {
+
+      List<Property> properties = getAllProperties();
+
+      try (FileWriter writer = new FileWriter("data/properties.txt")) {
+
+          for (Property property : properties) {
+
+              if (property.getId() != id) {
+
+                  writer.write(
+                          property.getId() + "|" +
+                          property.getTitle() + "|" +
+                          property.getLocation() + "|" +
+                          property.getPrice() + "|" +
+                          property.getPropertyType() + "|" +
+                          property.getDescription() +
+                          System.lineSeparator()
+                  );
+              }
+          }
+
+      } catch (IOException e) {
+          System.out.println("Error deleting property: " + e.getMessage());
+      }
+  }
 }

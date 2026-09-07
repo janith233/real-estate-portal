@@ -2,4 +2,3 @@
 2|Luxury Apartment|Kandy|1.8E7|Apartment|A comfortable apartment in a convenient location
 3|Residential Land|Galle|8500000.0|Land|A suitable plot for residential construction
 4|Smart Home|Gampaha|2.0E8|House|Suitable for a tech lover
-5|Old Home|Kadawatha|5.0E7|House|Old home that represents the past Sri Lankan culture

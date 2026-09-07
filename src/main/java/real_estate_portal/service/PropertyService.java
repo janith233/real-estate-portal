@@ -49,4 +49,8 @@ public class PropertyService {
     public void updateProperty(Property property) {
         repository.updateProperty(property);
     }
+
+    public void deleteProperty(int id) {
+        repository.deleteProperty(id);
+    }
 }
