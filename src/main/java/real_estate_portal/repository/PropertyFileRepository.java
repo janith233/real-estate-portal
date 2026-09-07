@@ -67,4 +67,32 @@ public class PropertyFileRepository {
           System.out.println("Error writing property to file: " + e.getMessage());
       }
   }
+
+  public void updateProperty(Property updatedProperty) {
+
+      List<Property> properties = getAllProperties();
+
+      try (FileWriter writer = new FileWriter("data/properties.txt")) {
+
+          for (Property property : properties) {
+
+              if (property.getId() == updatedProperty.getId()) {
+                  property = updatedProperty;
+              }
+
+              writer.write(
+                      property.getId() + "|" +
+                      property.getTitle() + "|" +
+                      property.getLocation() + "|" +
+                      property.getPrice() + "|" +
+                      property.getPropertyType() + "|" +
+                      property.getDescription() +
+                      System.lineSeparator()
+              );
+          }
+
+      } catch (IOException e) {
+          System.out.println("Error updating property: " + e.getMessage());
+      }
+  }
 }

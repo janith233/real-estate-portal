@@ -56,4 +56,37 @@ public class PropertyController {
 
         return "redirect:/properties";
     }
+
+    @GetMapping("/properties/edit/{id}")
+    public String showEditForm(@PathVariable int id, Model model) {
+
+        Property property = service.getPropertyById(id);
+
+        model.addAttribute("property", property);
+
+        return "property-edit";
+    }
+
+    @PostMapping("/properties/update")
+    public String updateProperty(
+            @RequestParam int id,
+            @RequestParam String title,
+            @RequestParam String location,
+            @RequestParam double price,
+            @RequestParam String propertyType,
+            @RequestParam String description) {
+
+        Property property = new Property(
+                id,
+                title,
+                location,
+                price,
+                propertyType,
+                description
+        );
+
+        service.updateProperty(property);
+
+        return "redirect:/properties";
+    }
 }

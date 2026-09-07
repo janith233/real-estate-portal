@@ -45,4 +45,8 @@ public class PropertyService {
 
         repository.addProperty(property);
     }
+
+    public void updateProperty(Property property) {
+        repository.updateProperty(property);
+    }
 }
