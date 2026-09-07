@@ -5,6 +5,7 @@ import real_estate_portal.model.Property;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,5 +47,24 @@ public class PropertyFileRepository {
       }
 
       return properties;
+  }
+
+  public void addProperty(Property property) {
+
+      try (FileWriter writer = new FileWriter("data/properties.txt", true)) {
+
+          writer.write(
+                  property.getId() + "|" +
+                  property.getTitle() + "|" +
+                  property.getLocation() + "|" +
+                  property.getPrice() + "|" +
+                  property.getPropertyType() + "|" +
+                  property.getDescription() +
+                  System.lineSeparator()
+          );
+
+      } catch (IOException e) {
+          System.out.println("Error writing property to file: " + e.getMessage());
+      }
   }
 }

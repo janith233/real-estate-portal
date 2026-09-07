@@ -7,6 +7,36 @@
 
 <h1>Available Properties</h1>
 
+<h2>Add New Property</h2>
+
+<form action="/properties/add" method="post">
+
+    <label>Title:</label>
+    <input type="text" name="title" required>
+    <br><br>
+
+    <label>Location:</label>
+    <input type="text" name="location" required>
+    <br><br>
+
+    <label>Price:</label>
+    <input type="number" name="price" required>
+    <br><br>
+
+    <label>Property Type:</label>
+    <input type="text" name="propertyType" required>
+    <br><br>
+
+    <label>Description:</label>
+    <textarea name="description" required></textarea>
+    <br><br>
+
+    <button type="submit">Add Property</button>
+
+</form>
+
+<hr>
+
 <div th:each="property : ${properties}">
 
     <h2 th:text="${property.title}"></h2>

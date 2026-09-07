@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PropertyController {
@@ -31,5 +33,27 @@ public class PropertyController {
         model.addAttribute("property", property);
 
         return "property-details";
+    }
+
+    @PostMapping("/properties/add")
+    public String addProperty(
+            @RequestParam String title,
+            @RequestParam String location,
+            @RequestParam double price,
+            @RequestParam String propertyType,
+            @RequestParam String description) {
+
+        Property property = new Property(
+                0,
+                title,
+                location,
+                price,
+                propertyType,
+                description
+        );
+
+        service.addProperty(property);
+
+        return "redirect:/properties";
     }
 }

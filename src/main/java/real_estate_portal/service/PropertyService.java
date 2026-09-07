@@ -18,14 +18,31 @@ public class PropertyService {
     }
 
     public Property getPropertyById(int id) {
-    List<Property> properties = repository.getAllProperties();
+        List<Property> properties = repository.getAllProperties();
 
-    for (Property property : properties) {
-        if (property.getId() == id) {
-            return property;
+        for (Property property : properties) {
+            if (property.getId() == id) {
+                return property;
+            }
         }
+
+        return null;
     }
 
-    return null;
-}
+    public void addProperty(Property property) {
+
+        List<Property> properties = repository.getAllProperties();
+
+        int nextId = 1;
+
+        for (Property existingProperty : properties) {
+            if (existingProperty.getId() >= nextId) {
+                nextId = existingProperty.getId() + 1;
+            }
+        }
+
+        property.setId(nextId);
+
+        repository.addProperty(property);
+    }
 }
