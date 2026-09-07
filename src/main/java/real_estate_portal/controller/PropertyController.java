@@ -1,6 +1,5 @@
 package real_estate_portal.controller;
 
-
 import real_estate_portal.model.Apartment;
 import real_estate_portal.model.House;
 import real_estate_portal.model.Property;
@@ -56,6 +55,10 @@ public class PropertyController {
 
         Property property = service.getPropertyById(id);
 
+        if (property == null) {
+            return "property-not-found";
+        }
+
         model.addAttribute("property", property);
 
         return "property-details";
@@ -69,6 +72,21 @@ public class PropertyController {
             @RequestParam String propertyType,
             @RequestParam int extraValue,
             @RequestParam String description) {
+
+        if (title.trim().isEmpty()
+                || location.trim().isEmpty()
+                || description.trim().isEmpty()) {
+            return "redirect:/properties";
+        }
+
+        if (price <= 0) {
+            return "redirect:/properties";
+        }
+
+        if ((propertyType.equals("House") && extraValue <= 0)
+                || (propertyType.equals("Apartment") && extraValue < 0)) {
+            return "redirect:/properties";
+        }
 
         Property property;
 
@@ -113,6 +131,10 @@ public class PropertyController {
 
         Property property = service.getPropertyById(id);
 
+        if (property == null) {
+            return "property-not-found";
+        }
+
         int extraValue = 0;
 
         if (property instanceof House) {
@@ -141,6 +163,21 @@ public class PropertyController {
             @RequestParam String propertyType,
             @RequestParam int extraValue,
             @RequestParam String description) {
+
+        if (title.trim().isEmpty()
+                || location.trim().isEmpty()
+                || description.trim().isEmpty()) {
+            return "redirect:/properties";
+        }
+
+        if (price <= 0) {
+            return "redirect:/properties";
+        }
+
+        if ((propertyType.equals("House") && extraValue <= 0)
+                || (propertyType.equals("Apartment") && extraValue < 0)) {
+            return "redirect:/properties";
+        }
 
         Property property;
 

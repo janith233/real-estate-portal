@@ -1,2 +1,3 @@
-1|Modern Family House|Colombo|2.5E7|House|A modern house suitable for a family|4
+1|Modern Family House|Colombo|2.5E9|House|A modern house suitable for a family living|4
 2|Luxury Apartment|Kandy|1.8E7|Apartment|A comfortable apartment in a convenient location|5
+3|Residential Land|Galle|8500000|Land|A suitable plot for residential construction

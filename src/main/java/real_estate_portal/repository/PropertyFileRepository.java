@@ -24,51 +24,59 @@ public class PropertyFileRepository {
                 String[] data = line.split("\\|");
 
                 if (data.length == 6 || data.length == 7) {
-                    int id = Integer.parseInt(data[0]);
-                    String title = data[1];
-                    String location = data[2];
-                    double price = Double.parseDouble(data[3]);
-                    String propertyType = data[4];
-                    String description = data[5];
-                    int extraValue = 0;
 
-                    if (data.length == 7) {
-                        extraValue = Integer.parseInt(data[6]);
+                    try {
+
+                        int id = Integer.parseInt(data[0]);
+                        String title = data[1];
+                        String location = data[2];
+                        double price = Double.parseDouble(data[3]);
+                        String propertyType = data[4];
+                        String description = data[5];
+
+                        int extraValue = 0;
+
+                        if (data.length == 7) {
+                            extraValue = Integer.parseInt(data[6]);
+                        }
+
+                        Property property;
+
+                        if (propertyType.equals("House")) {
+
+                            property = new House(
+                                    id,
+                                    title,
+                                    location,
+                                    price,
+                                    description,
+                                    extraValue);
+
+                        } else if (propertyType.equals("Apartment")) {
+
+                            property = new Apartment(
+                                    id,
+                                    title,
+                                    location,
+                                    price,
+                                    description,
+                                    extraValue);
+                        } else {
+
+                            property = new Property(
+                                    id,
+                                    title,
+                                    location,
+                                    price,
+                                    propertyType,
+                                    description);
+                        }
+
+                        properties.add(property);
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid property data: " + line);
                     }
-
-                    Property property;
-
-                    if (propertyType.equals("House")) {
-
-                        property = new House(
-                                id,
-                                title,
-                                location,
-                                price,
-                                description,
-                                extraValue);
-
-                    } else if (propertyType.equals("Apartment")) {
-
-                        property = new Apartment(
-                                id,
-                                title,
-                                location,
-                                price,
-                                description,
-                                extraValue);
-                    } else {
-
-                        property = new Property(
-                                id,
-                                title,
-                                location,
-                                price,
-                                propertyType,
-                                description);
-                    }
-
-                    properties.add(property);
                 }
             }
 
@@ -123,24 +131,6 @@ public class PropertyFileRepository {
         } catch (IOException e) {
             System.out.println("Error deleting property: " + e.getMessage());
         }
-    }
-
-    public List<Property> searchProperties(String keyword) {
-
-        List<Property> properties = getAllProperties();
-        List<Property> results = new ArrayList<>();
-
-        for (Property property : properties) {
-
-            if (property.getTitle().toLowerCase().contains(keyword.toLowerCase())
-                    || property.getLocation().toLowerCase().contains(keyword.toLowerCase())
-                    || property.getPropertyType().toLowerCase().contains(keyword.toLowerCase())) {
-
-                results.add(property);
-            }
-        }
-
-        return results;
     }
 
     private void writeProperty(FileWriter writer, Property property) throws IOException {
