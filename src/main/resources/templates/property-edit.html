@@ -1,63 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <title>Edit Property</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
-<body>
 
-<div class="property-form">
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
 
-    <h1>Edit Property</h1>
+  <body class="bg-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <header class="bg-white shadow-sm">
+      <div class="w-full px-10 lg:px-16 py-4 flex justify-between items-center">
+        <a href="/" class="text-xl font-bold text-gray-800">
+          Real Estate Portal
+        </a>
 
-    <form action="/properties/update" method="post">
+        <a
+          href="/properties"
+          class="text-gray-600 hover:text-blue-600 transition"
+        >
+          Properties
+        </a>
+      </div>
+    </header>
 
-        <input type="hidden" name="id" th:value="${property.id}">
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto px-6 py-10">
+      <!-- Back Link -->
+      <a
+        href="/properties"
+        class="inline-block text-blue-600 hover:text-blue-800 font-semibold mb-6 transition"
+      >
+        ← Back to Properties
+      </a>
 
-        <label>Title:</label>
-        <input type="text" name="title" th:value="${property.title}" required>
+      <!-- Edit Form Card -->
+      <div class="bg-white rounded-2xl shadow-lg p-8">
+        <div class="mb-8">
+          <p class="text-blue-600 font-semibold mb-2">PROPERTY MANAGEMENT</p>
 
-        <label>Location:</label>
-        <input type="text" name="location" th:value="${property.location}" required>
+          <h1 class="text-3xl font-bold text-gray-800">Edit Property</h1>
 
-        <label>Price:</label>
-        <input type="number" name="price" th:value="${property.price}" required>
+          <p class="text-gray-600 mt-2">
+            Update the property information below.
+          </p>
+        </div>
 
-        <label>Property Type:</label>
-        <select name="propertyType" required>
-            <option value="House"
-                    th:selected="${property.propertyType == 'House'}">
+        <form action="/properties/update" method="post">
+          <!-- Hidden ID -->
+          <input type="hidden" name="id" th:value="${property.id}" />
+
+          <!-- Title -->
+          <div class="mb-5">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              Title
+            </label>
+
+            <input
+              type="text"
+              name="title"
+              th:value="${property.title}"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Location -->
+          <div class="mb-5">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              Location
+            </label>
+
+            <input
+              type="text"
+              name="location"
+              th:value="${property.location}"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Price -->
+          <div class="mb-5">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              Price
+            </label>
+
+            <input
+              type="number"
+              name="price"
+              th:value="${#numbers.formatDecimal(property.price, 0, 0)}"
+              min="1"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Property Type -->
+          <div class="mb-5">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              Property Type
+            </label>
+
+            <select
+              name="propertyType"
+              id="editPropertyType"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option
+                value="House"
+                th:selected="${property.propertyType == 'House'}"
+              >
                 House
-            </option>
+              </option>
 
-            <option value="Apartment"
-                    th:selected="${property.propertyType == 'Apartment'}">
+              <option
+                value="Apartment"
+                th:selected="${property.propertyType == 'Apartment'}"
+              >
                 Apartment
-            </option>
+              </option>
 
-            <option value="Land"
-                    th:selected="${property.propertyType == 'Land'}">
+              <option
+                value="Land"
+                th:selected="${property.propertyType == 'Land'}"
+              >
                 Land
-            </option>
-        </select>
+              </option>
+            </select>
+          </div>
 
-        <label>Additional Value:</label>
-        <input type="number" name="extraValue" min="0" th:value="${extraValue}" required>
+          <!-- Extra Value -->
+          <div id="editExtraValueSection" class="mb-5">
+            <label
+              id="editExtraValueLabel"
+              class="block text-sm font-semibold text-gray-700 mb-2"
+            >
+              Additional Value:
+            </label>
 
-        <label>Description:</label>
-        <textarea name="description" required th:text="${property.description}"></textarea>
+            <input
+              type="number"
+              name="extraValue"
+              id="editExtraValue"
+              min="0"
+              th:value="${extraValue}"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        <button type="submit">Update Property</button>
+          <!-- Description -->
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+              Description
+            </label>
 
-    </form>
+            <textarea
+              name="description"
+              rows="5"
+              required
+              th:text="${property.description}"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            ></textarea>
+          </div>
 
-    <br>
+          <!-- Submit -->
+          <div class="flex flex-col sm:flex-row gap-3 mt-6">
+            <button
+              type="submit"
+              class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+            >
+              Update Property
+            </button>
 
-    <a class="action-link" href="/properties">
-        Back to Properties
-    </a>
+            <a
+              href="/properties"
+              class="flex-1 text-center bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition"
+            >
+              Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+    </main>
 
-</div>
+    <!-- JavaScript -->
+    <script>
+      const editPropertyType = document.getElementById("editPropertyType");
+      const editExtraValueSection = document.getElementById(
+        "editExtraValueSection",
+      );
+      const editExtraValueLabel = document.getElementById(
+        "editExtraValueLabel",
+      );
+      const editExtraValue = document.getElementById("editExtraValue");
 
-</body>
+      function updateExtraValueField() {
+        if (editPropertyType.value === "House") {
+          editExtraValueLabel.textContent = "Number of Bedrooms:";
+          editExtraValueSection.style.display = "block";
+          editExtraValue.required = true;
+        } else if (editPropertyType.value === "Apartment") {
+          editExtraValueLabel.textContent = "Floor Number:";
+          editExtraValueSection.style.display = "block";
+          editExtraValue.required = true;
+        } else {
+          editExtraValueSection.style.display = "none";
+          editExtraValue.required = false;
+          editExtraValue.value = 0;
+        }
+      }
+
+      editPropertyType.addEventListener("change", updateExtraValueField);
+
+      updateExtraValueField();
+    </script>
+  </body>
 </html>

@@ -1,16 +1,112 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
+
+<head>
     <title>Real Estate Portal</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-  </head>
-  <body>
-    <div class="home-page">
-      <h1>Real Estate Portal</h1>
 
-      <p>Find and manage properties easily.</p>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-      <a class="action-link" href="/properties"> Browse Properties </a>
+<body class="bg-gray-100 min-h-screen">
+
+<!-- Navigation -->
+<header class="bg-white shadow-sm">
+    <div class="w-full px-10 lg:px-16 py-4 flex justify-between items-center">
+
+        <a href="/" class="text-xl font-bold text-gray-800">
+            Real Estate Portal
+        </a>
+
+        <a href="/properties"
+           class="text-gray-600 hover:text-blue-600 transition">
+            Properties
+        </a>
+
     </div>
-  </body>
+</header>
+
+
+<!-- Hero Section -->
+<main class="min-h-screen flex items-center justify-center px-6 py-16">
+
+    <div class="bg-white rounded-2xl shadow-lg max-w-4xl w-full p-12 text-center">
+
+        <!-- Small Heading -->
+        <p class="text-blue-600 font-semibold mb-3">
+            FIND YOUR NEXT HOME
+        </p>
+
+
+        <!-- Main Heading -->
+        <h1 class="text-5xl font-bold text-gray-800 mb-4">
+            Find Your Perfect Property
+        </h1>
+
+
+        <!-- Description -->
+        <p class="text-lg text-gray-600 mb-8">
+            Explore houses, apartments and land in great locations.
+        </p>
+
+
+        <!-- Browse Button -->
+        <a href="/properties"
+           class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg
+                  font-semibold hover:bg-blue-700 transition">
+            Browse Properties
+        </a>
+
+
+        <!-- Property Types -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
+
+            <!-- Houses -->
+            <div class="bg-gray-50 rounded-xl p-5">
+
+                <h3 class="font-bold text-gray-800 mb-2">
+                    Houses
+                </h3>
+
+                <p class="text-sm text-gray-600">
+                    Find comfortable homes for your family.
+                </p>
+
+            </div>
+
+
+            <!-- Apartments -->
+            <div class="bg-gray-50 rounded-xl p-5">
+
+                <h3 class="font-bold text-gray-800 mb-2">
+                    Apartments
+                </h3>
+
+                <p class="text-sm text-gray-600">
+                    Explore apartments in convenient locations.
+                </p>
+
+            </div>
+
+
+            <!-- Land -->
+            <div class="bg-gray-50 rounded-xl p-5">
+
+                <h3 class="font-bold text-gray-800 mb-2">
+                    Land
+                </h3>
+
+                <p class="text-sm text-gray-600">
+                    Discover land for your next project.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
 </html>
